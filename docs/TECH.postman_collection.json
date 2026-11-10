@@ -1,0 +1,412 @@
+{
+  "info": {
+    "name": "TECH Ecommerce API",
+    "_postman_id": "7e3aab2b-a25c-4c00-a79c-1d27c39d2285",
+    "description": "TECH API collection. Login User then login Admin by changing credentials in Auth login request. Tokens are automatically stored in collection variables.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Public",
+      "item": [
+        {
+          "name": "GET /health",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/health",
+            "description": "Sức khỏe API",
+            "header": []
+          }
+        },
+        {
+          "name": "GET /catalog/categories",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/catalog/categories",
+            "description": "Danh mục",
+            "header": []
+          }
+        },
+        {
+          "name": "GET /catalog/brands",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/catalog/brands",
+            "description": "Thương hiệu",
+            "header": []
+          }
+        },
+        {
+          "name": "GET /catalog/banners",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/catalog/banners",
+            "description": "Banner",
+            "header": []
+          }
+        },
+        {
+          "name": "GET /catalog/products?limit=10&sort=popular",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/catalog/products?limit=10&sort=popular",
+            "description": "Tìm sản phẩm",
+            "header": []
+          }
+        },
+        {
+          "name": "GET /catalog/products/tai-nghe-bluetooth-chong-on-soundpro-x9",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/catalog/products/tai-nghe-bluetooth-chong-on-soundpro-x9",
+            "description": "Chi tiết sản phẩm",
+            "header": []
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "POST /auth/login",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/login",
+            "description": "User demo, sau đó đăng nhập admin để ghi adminToken",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"minhanh@tech.local\",\n  \"password\": \"TechUser@2026\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  " const obj=pm.response.json();",
+                  " pm.collectionVariables.set(obj.user.role === \"admin\" ? \"adminToken\" : \"userToken\", obj.token);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /auth/register",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/register",
+            "description": "Tạo user mới",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Nguyễn Văn Demo\",\n  \"email\": \"demo-new@tech.local\",\n  \"password\": \"TechUser@2026\",\n  \"phone\": \"0901234567\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /auth/me",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/auth/me",
+            "description": "Profile",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "POST /auth/forgot-password",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/forgot-password",
+            "description": "Quên mật khẩu",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"minhanh@tech.local\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PUT /auth/password",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/auth/password",
+            "description": "Đổi mật khẩu",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"TechUser@2026\",\n  \"newPassword\": \"TechUser@2027\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cart & COD",
+      "item": [
+        {
+          "name": "GET /cart",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/cart",
+            "description": "Xem cart",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "POST /cart/items",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/cart/items",
+            "description": "Thay productId bằng ID thật trong response catalog",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"507f191e810c19729de860ea\",\n  \"quantity\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /orders/quote",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/orders/quote",
+            "description": "Quote từ DB",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"shippingMethod\": \"standard\",\n  \"couponCode\": \"TECH10\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /orders",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/orders",
+            "description": "Đơn COD, key phải unique",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idempotencyKey\": \"8a9a3dd1-4382-4843-8f9b-3e6f234c9b4a\",\n  \"shippingAddress\": {\n    \"name\": \"Nguyễn Minh Anh\",\n    \"phone\": \"0901234567\",\n    \"line\": \"123 Nguyễn Văn Linh\",\n    \"city\": \"TP. Hồ Chí Minh\"\n  },\n  \"shippingMethod\": \"standard\",\n  \"paymentMethod\": \"COD\",\n  \"couponCode\": \"TECH10\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /orders",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/orders",
+            "description": "Đơn của user",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "GET /admin/dashboard",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/admin/dashboard",
+            "description": "Dashboard",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "GET /admin/products",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/admin/products",
+            "description": "Admin product list",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "GET /admin/orders",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/admin/orders",
+            "description": "Admin orders",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "GET /admin/users",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/admin/users",
+            "description": "Admin users",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "GET /admin/coupons",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/admin/coupons",
+            "description": "Admin coupons",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "GET /admin/categories",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/admin/categories",
+            "description": "Admin categories",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "GET /admin/brands",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/admin/brands",
+            "description": "Admin brands",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ]
+          }
+        },
+        {
+          "name": "GET /admin/banners",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/admin/banners",
+            "description": "Admin banners",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api"
+    },
+    {
+      "key": "userToken",
+      "value": ""
+    },
+    {
+      "key": "adminToken",
+      "value": ""
+    }
+  ]
+}
