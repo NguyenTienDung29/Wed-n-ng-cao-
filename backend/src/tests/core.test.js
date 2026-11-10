@@ -1,0 +1,11 @@
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const {priceSummary,shippingCost,slug,money,isId,validEmail}=require('../utils/core');
+test('Tổng tiền lấy từ giá backend và số lượng chuẩn',()=>assert.deepEqual(priceSummary([{price:149000,quantity:2}],'standard',20000),{subtotal:298000,shipping:25000,discount:20000,total:303000}));
+test('Miễn phí ship từ 500.000đ',()=>assert.equal(shippingCost('standard',500000),0));
+test('Phí ship nhanh 39.000đ',()=>assert.equal(shippingCost('express',900000),39000));
+test('Giảm giá không thể làm tổng thành âm',()=>assert.deepEqual(priceSummary([{price:20000,quantity:1}],'standard',999999),{subtotal:20000,shipping:25000,discount:20000,total:25000}));
+test('Không chấp nhận âm tiền',()=>assert.equal(money(-10000),0));
+test('Slug tiếng Việt có dấu và Đ',()=>{assert.equal(slug('Tai nghe Bluetooth cao cấp'),'tai-nghe-bluetooth-cao-cap');assert.equal(slug('Đế Đỡ Laptop'),'de-do-laptop')});
+test('Kiểm tra định dạng MongoDB ObjectId',()=>{assert.equal(isId('abc'),false);assert.equal(isId('507f191e810c19729de860ea'),true)});
+test('Kiểm tra email tối thiểu',()=>{assert.equal(validEmail('user@tech.local'),true);assert.equal(validEmail('sai_email'),false)});

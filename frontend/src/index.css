@@ -1,0 +1,23 @@
+@tailwind base;@tailwind components;@tailwind utilities;
+:root{font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#1E293B;background:#f7f8fc;font-synthesis:none;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth}body{margin:0}button,input,textarea,select{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.55}::selection{background:#fed7aa;color:#7c2d12}
+@layer components{
+ .container-tech{@apply max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8}
+ .btn-primary{@apply inline-flex items-center justify-center gap-2 bg-orangeTech hover:bg-orange-600 text-white font-bold rounded-xl px-5 py-3 transition-all shadow-[0_5px_15px_rgba(249,115,22,.20)] hover:shadow-[0_8px_22px_rgba(249,115,22,.30)]}
+ .btn-outline{@apply inline-flex items-center justify-center gap-2 bg-white border border-slate-200 hover:border-orangeTech hover:text-orangeTech font-semibold rounded-xl px-5 py-3 transition-colors}
+ .input{@apply w-full bg-white border border-slate-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-orange-200 focus:border-orangeTech transition-all text-sm}
+ .surface{@apply bg-white border border-slate-100 rounded-2xl shadow-card}
+ .section-heading{@apply text-[25px] md:text-[31px] tracking-tight font-extrabold text-navy}
+ .badge-sale{@apply bg-red-500 text-white text-[11px] font-extrabold px-2 py-1 rounded-md}
+ .nav-link{@apply text-sm font-semibold text-slate-600 hover:text-orangeTech transition-colors}
+ .admin-input{@apply input py-2.5}
+}
+.hero-grid{background-image:radial-gradient(circle at 76% 36%,rgba(249,115,22,.16),transparent 32%),radial-gradient(circle at 15% 90%,rgba(59,130,246,.11),transparent 30%)}
+.product-card{transition:transform .25s,box-shadow .25s,border-color .25s}.product-card:hover{transform:translateY(-5px);box-shadow:0 18px 42px rgba(15,23,42,.11);border-color:#fed7aa}
+.product-card .add-action{transition:transform .2s,background .2s}.product-card:hover .add-action{transform:translateY(-2px)}
+.bg-dots{background-image:radial-gradient(rgba(255,255,255,.13) 1px,transparent 1px);background-size:18px 18px}
+.toast{animation:enter .22s ease-out}@keyframes enter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.skeleton{background:linear-gradient(90deg,#f1f5f9,#e2e8f0,#f1f5f9);background-size:200% 100%;animation:shimmer 1.3s infinite}@keyframes shimmer{to{background-position:-200% 0}}
+.orange-glow{box-shadow:0 0 90px rgba(249,115,22,.22)}
+.orbit{animation:floaty 6s ease-in-out infinite}@keyframes floaty{50%{transform:translateY(-13px) rotate(2deg)}}
+select{appearance:auto}img{display:block}a{text-decoration:none}
